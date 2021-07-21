@@ -75,7 +75,8 @@ while True:
                     result = board.move_piece( initial_move_square, target_move_square, current_player_color )
                     print('clicked on target', target_move_square)
                     print(result)
-                    players_list, players_dict, current_player_id, current_player_color, current_player_class = change_player(players_list, players_dict, current_player_id, current_player_color, current_player_class)
+                    if result[0] == 'Success':
+                        players_list, players_dict, current_player_id, current_player_color, current_player_class = change_player(players_list, players_dict, current_player_id, current_player_color, current_player_class)
                     if current_player_class.name == VANILLA_PLAYER:
                         move_mode = 'initial_square'
                     else:

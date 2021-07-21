@@ -4,7 +4,6 @@ from board import Board
 
 import gui_settings as GS
 from vanilla_settings import players_dict, players_list, current_player_id, current_player_color, current_player_class 
-from gui_settings import *
 
 
 def get_pressed_square( cursor_coords: list[int], board: Board ) -> list[int]:

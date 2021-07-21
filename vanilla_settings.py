@@ -32,10 +32,12 @@ texture_error_path = './texture_packs/vanilla/squares/vanilla:texture_error.png'
 from piece import Piece
 from piece_packs.vanilla.vanilla_wazir import VanillaWazir
 from piece_packs.vanilla.vanilla_chesspawn import VanillaChessPawn
+from piece_packs.vanilla.vanilla_rook import VanillaRook
 global_piece_dict = {
             # 'vanilla:pawn': Pawn,
             'vanilla:wazir': VanillaWazir,
             'vanilla:chesspawn': VanillaChessPawn,
+            'vanilla:rook': VanillaRook,
         }
 
 from player_packs.vanilla.vanilla_classic_ai import VanillaClassicAI

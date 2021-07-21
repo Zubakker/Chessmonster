@@ -32,8 +32,6 @@ class VanillaWazir(Piece):
     def validate_placement(self, map_square, board_square):
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
-        if board_square != '':
-            return ['Error', 'A piece in the way']
         return ['Success', 'Succsess']
 
 

@@ -19,6 +19,14 @@ class VanillaChessPawn(Piece):
             if delta_y == 1 and abs(delta_x) == 1:
                 return ['capturing', relative_movement]
             return ['Error', 'Invalid target square']
+        if self.color == 'white':
+            if not self.moved_flag and delta_y == -2:
+                return ['nocapturing', [0, -1], [0, -2]]
+            if delta_y == -1 and delta_x == 0:
+                return ['nocapturing', [0, -1]]
+            if delta_y == -1 and abs(delta_x) == 1:
+                return ['capturing', relative_movement]
+            return ['Error', 'Invalid target square']
         return ['Error', 'Invalid target square']
 
     def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
@@ -39,8 +47,6 @@ class VanillaChessPawn(Piece):
     def validate_placement(self, map_square, board_square):
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
-        if board_square != '':
-            return ['Error', 'A piece in the way']
         return ['Success', 'Succsess']
 
 

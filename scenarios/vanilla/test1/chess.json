@@ -135,6 +135,9 @@
       5
    ],
    "pieces": [
+	   ["vanilla:rook_black", [1, 1]],
+	   ["vanilla:rook_black", [8, 1]],
+
 	   ["vanilla:chesspawn_black", [1, 2]],
 	   ["vanilla:chesspawn_black", [2, 2]],
 	   ["vanilla:chesspawn_black", [3, 2]],
@@ -142,10 +145,24 @@
 	   ["vanilla:chesspawn_black", [5, 2]],
 	   ["vanilla:chesspawn_black", [6, 2]],
 	   ["vanilla:chesspawn_black", [7, 2]],
-	   ["vanilla:chesspawn_black", [8, 2]]
+	   ["vanilla:chesspawn_black", [8, 2]],
+
+
+	   ["vanilla:rook_white", [1, 8]],
+	   ["vanilla:rook_white", [8, 8]],
+
+	   ["vanilla:chesspawn_white", [1, 7]],
+	   ["vanilla:chesspawn_white", [2, 7]],
+	   ["vanilla:chesspawn_white", [3, 7]],
+	   ["vanilla:chesspawn_white", [4, 7]],
+	   ["vanilla:chesspawn_white", [5, 7]],
+	   ["vanilla:chesspawn_white", [6, 7]],
+	   ["vanilla:chesspawn_white", [7, 7]],
+	   ["vanilla:chesspawn_white", [8, 7]]
    ],
    "fog_texture": "vanilla:nofog",
    "players_dict": {
+	   "white": "vanilla:player",
 	   "black": "vanilla:player"
    }
 }

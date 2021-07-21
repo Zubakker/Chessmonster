@@ -96,6 +96,7 @@ class Board:
         
         relative_path = current_piece.return_path(relative_movement)
         if relative_path[0] == 'Error':
+            print(relative_path)
             return ['Error', 'Invalid target square']
         path_offset = initial_move_square[::]
 
@@ -113,11 +114,12 @@ class Board:
             board_path.append( self.board[ square[1] + path_offset[1] ][ square[0] + path_offset[0] ] )
 
         movement_validation = current_piece.validate_path(map_path, board_path)
+        print(movement_validation)
 
         if movement_validation[0] == 'Error':
             return ['Error', 'Invalid move']
 
-        if self.board[ target_move_square[1] ][ target_move_square[0] ]:
+        if self.board[ target_move_square[1] ][ target_move_square[0] ] != '':
             # CAPTURING PIECE
             pass
 

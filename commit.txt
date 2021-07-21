@@ -1,1 +1,3 @@
-clean import from gui_settings and chesspawn class
+add white chesspawns and rooks
+
+Added white chesspawn support, Added Rook class and rooks on board
