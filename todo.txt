@@ -1,0 +1,94 @@
+- надо сделать чтобы враги анализировали ситуацию
+- чтобы на доске фигуры были под ударом ли не под ударом
+- если фигура под ударом то враг пытается думать
+- надо сделать проверку, куда фигура может ходить или нет, и чтобы она ела и не ела
+- сделать ходы по очереди и возможность перемещать фигуры
+- надо сделать ии врагов
+
+- уровни будут храниться в отдельной папке и там будут архивы уровней наверное, но скорее там будет не архив а папка и там будут текстуры или нет?. в каждой папке будут текстуры, паки фигур и прочее, но их можно будет и отдельно наверное подключить.
+
+
+# какие бывают типы клеток карты:
+ в мапе хранится двумерный массив карты, слова указывают на тип клетки, 
+ все дефолтные клетки, как и все карты имеют префикс "vanilla:..."
+ типы клеток: основные это 
+	1)	border -- стена граница карты, по дефолту 
+		раскрашена в чёрный цвет, через неё нельзя пройти и т.п.
+	2)	wall -- стена в комнатах и т.п., через неё нельзя пройти, 
+		но она есть не только за границами квадрата 
+	3)	floor -- клетка пола, она делится на два вида:
+		a)	floor_light -- светлая клетка (белая)
+		b)	floor_dark -- тёмная клетка (чёрная)
+	4)	start -- the start of the game square, it is not necessary,
+		but it is helpful for automatic piece placement in scenarios
+
+ дополнительные виды клеток:
+	border1, border2, border3, ..., border9
+	wall1, wall2, wall3, ..., wall9
+	start1, start2, start3, ..., start9, 
+	floor_light1, floor_light2, floor_light3, ..., floor_light9 
+	floor_dark1, floor_dark2, floor_dark3, ..., floor_dark9 --
+ это встроенные дополнительные виды клеток, которые позволяют раскрашивать и делать уровни более красивыми и разнообразными. Остальные виды клеток должны быть подключены и будут называться типа "название_мода:название_клетки" (как в майнкрафте).
+
+ насчёт текстур: текстуры хранятся в папке текстур наверное, туда можно загрузить доп текстурпаки. когда мы выбираем текстурпак, он загружается (его вспомогательный какой-нибудь заголовочный файл), потом когда происходит отрисовка, мы смотрим, как называется клетка, лезем в текстурпак и там её находим (если она есть) картинку, и рисуем эту картинку, если нету такой картинки (для какой-нибудь клетки странной), тогда будет текстура с ошибкой (как ERROR в гарисмоде).
+
+
+# для хождения фигур: в графической оболочке у нас определяется где находится курсор, на какой он клетке, чтобы понять, какую фигуру мы выбираем, потом мы передвигаем курсор, и оно понимает, куда мы его двигаем, на какую клетку, этот относительный (или абсолютный я хз как будет) 
+
+
+all the piece types will be located in the ./pieces/ , vanilla pieces will be in ./pieces/vanilla.py
+
+
+TODO:
+	#	load textures (multiple texturepacks)
+	#	resolve internal conflicts or show an error
+	#	make it turn based
+	#	make a level editor
+	#	when loading maps and stages do this:
+		1) load the scenario (level) from the file including its 
+			# map
+			# textures (for blocks and pieces)
+			# additional piece classes
+		then
+		1) load all the turned on texturepacks
+		2) load all the turned on additional pieces
+
+		and resolve all the conflicts
+	
+	#	knowing which pieces are under attack and which are not
+		it should be shown somewhere
+		
+	#	load_scenario() function
+	#	load_map() function
+	#	load_texture_pack() function
+	#	load_pieces_pack() function
+
+
+IMPORTANT
+	#	every scenario is as follows:
+	#	./scenarios
+	#	  | vanilla:level1
+	#	  |   | textures
+	#     |   |   | squares
+	#     |   |   |   | vanilla:floor_light.png
+	#     |   |   |   | ...
+	#     |   |   | pieces
+	#     |   |   |   | vanilla:wazir_black.png
+	#     |   |   |   | ...
+	#     |   | pieces
+	#     |   |   | piece_list.py
+	#     |   |   | mymod_pawn2.py
+	#	  |   |   | ...
+	#     |   | map1.json
+	#     |   | map2.json
+	#     |   | ...
+
+piece_list.py structure:
+"""
+from mymod_pawn2 import MyModPawn2
+from vanilla_wazir import VanillaWazir
+piece_dict = {
+	'mymod:pawn2': MyModPawn2,
+	'vanilla:wazir': VanillaWazir
+}
+"""
