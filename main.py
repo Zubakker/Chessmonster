@@ -9,10 +9,13 @@ from piece import Piece
 from gui_settings import SCREEN_SIZE
 from vanilla_settings import tmp_texture_pack_directory, VANILLA_PLAYER
 from render_utilities import render, render_level_choice, render_texture_pack_choice, \
-        render_piece_pack_choice, render_player_pack_coice
+        render_piece_pack_choice, render_player_pack_choice
 from load_utilities import load_scenario, load_map, load_texture_pack, load_piece_pack, \
         load_players_pack
 from gameloop_utilities import get_pressed_square, camera_move, change_player
+
+
+from board import Board
 
 
 display = pygame.display.set_mode(SCREEN_SIZE)
@@ -29,10 +32,11 @@ system('rm ' + tmp_texture_pack_directory + '/* -r')
 
 board = Board()
 #---- TESTING, NOT FINAL ----
-players_dict = load_scenario('./scenarios/vanilla/test1', board)
-# load_map('./scenarios/test1.json')
+#players_dict = load_scenario('./scenarios/vanilla/test1', board)
+players_dict = load_map('./scenarios/vanilla/test1/chess.json', board)
 load_texture_pack('./texture_packs/vanilla')
-# load_piece_pack('./scenarios/test1.json')
+#load_piece_pack('./piece_packs/vanilla')
+#load_player_pack'./player_packs/vanilla')
 #---- END OF TESTING ----
 
 
@@ -48,11 +52,11 @@ players_list = list(players_dict)
 current_player_id = -1
 current_player_color = 0
 current_player_class = 0
-change_player()
+players_list, players_dict, current_player_id, current_player_color, current_player_class = change_player(players_list, players_dict, current_player_id, current_player_color, current_player_class)
 
 mose_motion_start = 0 # used for camera movement
 mose_motion_end = 0 # used for camera movement
-whil True:
+while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -71,8 +75,8 @@ whil True:
                     result = board.move_piece( initial_move_square, target_move_square, current_player_color )
                     print('clicked on target', target_move_square)
                     print(result)
-                    player_change()
-                    if current_player_class.name == VANILLA_PLAYER
+                    players_list, players_dict, current_player_id, current_player_color, current_player_class = change_player(players_list, players_dict, current_player_id, current_player_color, current_player_class)
+                    if current_player_class.name == VANILLA_PLAYER:
                         move_mode = 'initial_square'
                     else:
                         move_mode = 'locked'
@@ -86,8 +90,8 @@ whil True:
         camera_move(mouse_motion_start, mouse_motion_end)
         mouse_motion_start = mouse_motion_end
         
-    if current_player_class.name != VANILLA_PLAYER
-        players_list[ current_player_id ].make_move( board, players_dict, current_player_id )
+    if current_player_class.name != VANILLA_PLAYER:
+        current_player_class.make_move( board, players_dict, current_player_id )
 
 
         

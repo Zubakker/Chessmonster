@@ -27,9 +27,10 @@ def load_map( filename: str, board: Board ) -> dict:
         board.set_piece(piece_class([], color), piece[1])
 
     players_dict = dict()
-    for player_name in list(map_file['players_dict']):
-        player_class = global_players_dict[player_name]
-        players_dict[player_name] = player_class
+    for player_color in list(map_file['players_dict']):
+        player_class_name = map_file['players_dict'][player_color]
+        player_class = global_player_dict[player_class_name]
+        players_dict[player_color] = player_class
     return players_dict
 
 def load_texture_pack( directory: str ) -> None:

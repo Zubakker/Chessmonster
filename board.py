@@ -45,12 +45,13 @@ class Board:
         if gamemap['visibility_radius'] > 10:
             return ['Error', 'Visibility radius too great']
         self.visibility_radius = gamemap['visibility_radius']
-        if self.visibility_radius < 0:
-            self.lighting =  [ [255] * self.width for x in range(self.height) ]
-            
-
 
         self.light_stages = list()
+
+        if self.visibility_radius < 0:
+            self.lighting =  [ [255] * self.width for x in range(self.height) ]
+            self.light_stages = [255, 0]
+
         for i in range(self.visibility_radius + 1):
             self.light_stages.append(255 - i*(255//(self.visibility_radius+1)))
 
@@ -100,7 +101,11 @@ class Board:
 
         map_path = list()
         board_path = list()
-        for square in relative_path:
+
+        piece_flag = relative_path[0] # some pieces require flags to how to react, e.g. pawn needs no know if it is going diagonally to check for enemy pieces
+        board_path.append(piece_flag) 
+
+        for square in relative_path[1:]:
             if self.map[ square[1] + path_offset[1] ][ square[0] + path_offset[0] ] in impassable_squares:
                 map_path.append('impassable')
             else:
@@ -114,7 +119,6 @@ class Board:
 
         if self.board[ target_move_square[1] ][ target_move_square[0] ]:
             # CAPTURING PIECE
-            self.board[ target_move_square[1] ][ target_move_square[0] ] = ''
             pass
 
         self.board[ initial_move_square[1] ][ initial_move_square[0] ] = ''

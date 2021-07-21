@@ -1,0 +1,151 @@
+{
+   "name":"vanilla:chess",
+   "size":[
+      10,
+      10
+   ],
+   "map":[
+      [
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:floor_dark",
+         "vanilla:floor_light",
+         "vanilla:border"
+      ],
+      [
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border",
+         "vanilla:border"
+      ]
+   ],
+   "visibility_radius":-1,
+   "impassable_squares":[
+      "myblocks:mywall1"
+   ],
+   "camera_pos":[
+      5,
+      5
+   ],
+   "pieces": [
+	   ["vanilla:chesspawn_black", [1, 2]],
+	   ["vanilla:chesspawn_black", [2, 2]],
+	   ["vanilla:chesspawn_black", [3, 2]],
+	   ["vanilla:chesspawn_black", [4, 2]],
+	   ["vanilla:chesspawn_black", [5, 2]],
+	   ["vanilla:chesspawn_black", [6, 2]],
+	   ["vanilla:chesspawn_black", [7, 2]],
+	   ["vanilla:chesspawn_black", [8, 2]]
+   ],
+   "fog_texture": "vanilla:nofog",
+   "players_dict": {
+	   "black": "vanilla:player"
+   }
+}
