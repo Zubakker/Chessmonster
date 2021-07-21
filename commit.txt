@@ -1,0 +1,4 @@
+refactor, split gameloop_utils into 3 files, clean import
+
+gameloop_utilities were split into render_utilities, load_utilities and
+gameloop_utilities. In those files and in main.py imports were cleaned.
