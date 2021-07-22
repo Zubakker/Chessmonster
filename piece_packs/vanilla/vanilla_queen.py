@@ -1,26 +1,35 @@
 from piece import Piece
 
-class VanillaRook(Piece):
+class VanillaQueen(Piece):
     def __init__(self, position: list[int], color: str) -> None:
         super().__init__(position, color)
-        self.value = 5
-        self.name = 'vanilla:rook'
+        self.value = 9 
+        self.name = 'vanilla:queen'
         return
 
 
     def return_path(self, relative_movement: list[int]) -> list[str, list[int]]:
         delta_x, delta_y = relative_movement
-        if (delta_x * delta_y != 0) or (abs(delta_x) + abs(delta_y) == 0):
+        if abs(delta_x) + abs(delta_y) == 0:
+            return ['Error', 'Invalid target square']
+        if abs(delta_x) != abs(delta_y) and delta_x * delta_y != 0:
             return ['Error', 'Invalid target square']
         movement_path = ['']
-        for i in range( delta_x):
-            movement_path.append([i+1, 0])
-        for i in range(-delta_x):
-            movement_path.append([-i-1, 0])
-        for i in range( delta_y):
-            movement_path.append([0, i+1])
-        for i in range(-delta_y):
-            movement_path.append([0, -i-1])
+        if delta_x * delta_y == 0:
+            for i in range( delta_x):
+                movement_path.append([i+1, 0])
+            for i in range(-delta_x):
+                movement_path.append([-i-1, 0])
+            for i in range( delta_y):
+                movement_path.append([0, i+1])
+            for i in range(-delta_y):
+                movement_path.append([0, -i-1])
+        else:
+            y_sign = delta_y // abs(delta_y)
+            for i in range( delta_x):
+                movement_path.append([i+1, (i+1)*y_sign])
+            for i in range(-delta_x):
+                movement_path.append([-i-1, (i+1)*y_sign])
         return movement_path
 
     def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:

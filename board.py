@@ -1,6 +1,6 @@
 from piece import Piece
 
-from vanilla_settings import impassable_squares
+from vanilla_settings import impassable_squares, imjumpable_squares
 
 
 class Board:
@@ -57,6 +57,8 @@ class Board:
 
         for item in gamemap['impassable_squares']:
             impassable_squares.append(item)
+        for item in gamemap['imjumpable_squares']:
+            imjumpable_squares.append(item)
             
         self.center = gamemap['camera_pos']
         self.fog_texture = gamemap['fog_texture']
@@ -65,8 +67,12 @@ class Board:
 
     def set_piece(self, piece: Piece, position_square: list ) -> list: 
         map_square = self.map[ position_square[1] ][ position_square[0] ]
-        if map_square in impassable_squares:
+        if map_square in impassable_squares and map_square in impassable_squares:
+            map_square = 'impassable_imjumpable'
+        elif map_square in impassable_squares: 
             map_square = 'impassable'
+        elif map_square in imjumpable_squares: 
+            map_square = 'imjumpable'
         else:
             map_square = 'passable'
         board_square = self.board[ position_square[1] ][ position_square[0] ]
@@ -95,8 +101,8 @@ class Board:
                               target_move_square[1] - initial_move_square[1] ]
         
         relative_path = current_piece.return_path(relative_movement)
+        print(relative_path)
         if relative_path[0] == 'Error':
-            print(relative_path)
             return ['Error', 'Invalid target square']
         path_offset = initial_move_square[::]
 
@@ -107,8 +113,14 @@ class Board:
         board_path.append(piece_flag) 
 
         for square in relative_path[1:]:
-            if self.map[ square[1] + path_offset[1] ][ square[0] + path_offset[0] ] in impassable_squares:
+            dy = square[1] + path_offset[1] 
+            dx = square[0] + path_offset[0]
+            if self.map[ dy ][ dx ] in impassable_squares and self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path.append('impassable_imjumpable')
+            elif self.map[ dy ][ dx ] in impassable_squares:
                 map_path.append('impassable')
+            elif self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path.append('imjumpable')
             else:
                 map_path.append('passable')
             board_path.append( self.board[ square[1] + path_offset[1] ][ square[0] + path_offset[0] ] )
@@ -158,6 +170,20 @@ class Board:
                 this_square_light = max(this_square_light, self.light_stages[abs(i) + abs(j)])
                 self.lighting[ position_square[1] + i ][ position_square[0] + j ] = \
                         this_square_light
+        return
+
+    def check_for_piece(self, position_square: list[int]) -> dict:
+        square = self.board[ position_square[1] ][ position_square[0] ]
+        if square != '':
+            return {'result': 'Piece on square', 'color': square.color}
+        else:
+            return {'result': 'No piece on square', 'color': ''}
+
+    def get_piece(self, position_square: list[int]) -> Piece:
+        return self.board[ position_square[1] ][ position_square[0] ]
+
+    def remove_piece(self, position_square: list[int]) -> None:
+        self.board[ position_square[1] ][ position_square[0] ] = ''
         return
 
 

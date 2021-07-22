@@ -1,17 +1,16 @@
 from piece import Piece
 
-class VanillaWazir(Piece):
+class VanillaKing(Piece):
     def __init__(self, position: list[int], color: str) -> None:
         super().__init__(position, color)
-        self.value = 1
-        self.name = 'vanilla:wazir'
+        self.value = 900
+        self.name = 'vanilla:king'
         return
 
 
     def return_path(self, relative_movement: list[int]) -> list[list[int]]:
         delta_x, delta_y = relative_movement
-
-        if abs(delta_x) + abs(delta_y) != 1:
+        if abs(delta_x) + abs(delta_y) == 0 or abs(delta_x) > 1 or abs(delta_y) > 1:
             return ['Error', 'Invalid target square']
 
         return ['', relative_movement]
@@ -33,4 +32,3 @@ class VanillaWazir(Piece):
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
-

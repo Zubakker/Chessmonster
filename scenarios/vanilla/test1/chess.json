@@ -130,12 +130,21 @@
    "impassable_squares":[
       "myblocks:mywall1"
    ],
+   "imjumpable_squares":[
+      "myblocks:mywall1"
+   ],
    "camera_pos":[
       5,
       5
    ],
    "pieces": [
 	   ["vanilla:rook_black", [1, 1]],
+	   ["vanilla:knight_black", [2, 1]],
+	   ["vanilla:bishop_black", [3, 1]],
+	   ["vanilla:queen_black", [4, 1]],
+	   ["vanilla:king_black", [5, 1]],
+	   ["vanilla:bishop_black", [6, 1]],
+	   ["vanilla:knight_black", [7, 1]],
 	   ["vanilla:rook_black", [8, 1]],
 
 	   ["vanilla:chesspawn_black", [1, 2]],
@@ -149,6 +158,12 @@
 
 
 	   ["vanilla:rook_white", [1, 8]],
+	   ["vanilla:knight_white", [2, 8]],
+	   ["vanilla:bishop_white", [3, 8]],
+	   ["vanilla:queen_white", [4, 8]],
+	   ["vanilla:king_white", [5, 8]],
+	   ["vanilla:bishop_white", [6, 8]],
+	   ["vanilla:knight_white", [7, 8]],
 	   ["vanilla:rook_white", [8, 8]],
 
 	   ["vanilla:chesspawn_white", [1, 7]],

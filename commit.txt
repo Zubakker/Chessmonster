@@ -1,3 +1,2 @@
-add white chesspawns and rooks
+add dragging pieces to move them
 
-Added white chesspawn support, Added Rook class and rooks on board

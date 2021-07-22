@@ -1,12 +1,10 @@
 import pygame
 
 from board import Board
-from piece import Piece
 
 from os import listdir, system
 from vanilla_settings import tmp_texture_pack_directory, texture_error_path
 import gui_settings as GS
-import vanilla_settings as VS
 
 def render_game(screen: pygame.Surface, board: Board, piece_dragged: Piece, mouse_pos: tuple) -> None:
     screen.fill((0,0,0,255))
@@ -96,7 +94,7 @@ def render_game(screen: pygame.Surface, board: Board, piece_dragged: Piece, mous
         ni += 1
 
         if piece_dragged != '':
-            piece_texture_name= piece_dragged.name + '_' + piece_dragged.color + '.png'
+            piece_texture_name= pice_dragged.name + '_' + piece_dragged.color + '.png'
             if piece_texture_name not in listdir(tmp_texture_pack_directory + '/pieces'):
                 # TEXTURE NOT FOUND
                 print('TEXTURE NOT FOUND', map_square, listdir(tmp_texture_pack_directory + '/squares'))

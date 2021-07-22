@@ -23,6 +23,7 @@ impassable_squares = [
            'vanilla:wall9',
 
         ]
+imjumpable_squares = impassable_squares[:]
 
 
 tmp_texture_pack_directory = './tmp_texture_pack'
@@ -33,11 +34,18 @@ from piece import Piece
 from piece_packs.vanilla.vanilla_wazir import VanillaWazir
 from piece_packs.vanilla.vanilla_chesspawn import VanillaChessPawn
 from piece_packs.vanilla.vanilla_rook import VanillaRook
+from piece_packs.vanilla.vanilla_bishop import VanillaBishop
+from piece_packs.vanilla.vanilla_queen import VanillaQueen
+from piece_packs.vanilla.vanilla_knight import VanillaKnight
+from piece_packs.vanilla.vanilla_king import VanillaKing
 global_piece_dict = {
-            # 'vanilla:pawn': Pawn,
             'vanilla:wazir': VanillaWazir,
             'vanilla:chesspawn': VanillaChessPawn,
             'vanilla:rook': VanillaRook,
+            'vanilla:bishop': VanillaBishop,
+            'vanilla:queen': VanillaQueen,
+            'vanilla:knight': VanillaKnight,
+            'vanilla:king': VanillaKing,
         }
 
 from player_packs.vanilla.vanilla_classic_ai import VanillaClassicAI

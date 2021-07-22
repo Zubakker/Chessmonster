@@ -30,7 +30,7 @@ class VanillaChessPawn(Piece):
         return ['Error', 'Invalid target square']
 
     def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
-        if 'impassable' in map_path:
+        if 'impassable' in map_path or 'impassible_imjumpable' in map_path:
             return ['Error', 'Impassable square in the way']
 
         if board_path[0] == 'nocapturing':
