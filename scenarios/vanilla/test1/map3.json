@@ -73,6 +73,9 @@
    "impassable_squares":[
       "myblocks:mywall1"
    ],
+   "imjumpable_squares":[
+      "myblocks:mywall1"
+   ],
    "camera_pos":[
       3.5,
       3.5

@@ -130,17 +130,21 @@
    "impassable_squares":[
       "myblocks:mywall1"
    ],
+   "imjumpable_squares":[
+      "myblocks:mywall1"
+   ],
    "camera_pos":[
       3.5,
       3.5
    ],
    "pieces": [
 	  ["vanilla:wazir_black", [3, 3]],
-	  ["vanilla:wazir_black", [6, 6]]
+	  ["vanilla:wazir_white", [6, 6]]
    ],
    "fog_texture": "vanilla:fog",
    "players_dict": {
 	   "white": "vanilla:player",
-	   "black": "vanilla:classic_ai"
-   }
+	   "black": "vanilla:player"
+   },
+   "movement_points": 16
 }

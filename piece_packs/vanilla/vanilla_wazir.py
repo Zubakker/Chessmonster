@@ -29,8 +29,19 @@ class VanillaWazir(Piece):
         return ['Success', 'Succsess']
     
 
-    def validate_placement(self, map_square, board_square):
+    def validate_placement(self, map_square: str, board_square: Piece) -> list[str, str]:
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
 
+    def return_attack(self, movement_point) -> list[list[int, int]]:
+        return [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+    def validate_attack( self, map_path: list[list[list[int, int], str]], board_path: list[list[list[int, int], str]] ):
+        validated_attack = list()
+        for square in map_path:
+            if 'impassible' in square or 'imjumpable' in square:
+                continue
+            validated_attack.append(square[0])
+
+        return validated_attack

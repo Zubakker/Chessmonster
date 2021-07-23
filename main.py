@@ -37,7 +37,7 @@ board = Board()
 load_texture_pack('./texture_packs/vanilla')
 #load_piece_pack('./piece_packs/vanilla')
 #load_player_pack'./player_packs/vanilla')
-VS.players_dict = load_map('./scenarios/vanilla/test1/chess_four.json', board)
+VS.players_dict = load_map('./scenarios/vanilla/test1/map1.json', board)
 #---- END OF TESTING ----
 
 

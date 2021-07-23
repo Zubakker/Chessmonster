@@ -321,5 +321,6 @@
 	   "black": "vanilla:player",
 	   "red": "vanilla:player",
 	   "blue": "vanilla:player"
-   }
+   },
+   "movement_points": 16
 }

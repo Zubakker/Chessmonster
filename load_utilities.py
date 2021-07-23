@@ -21,10 +21,15 @@ def load_map( filename: str, board: Board ) -> dict:
     file = open(filename, 'r').read()
     map_file = loads( file )
     board.set_map( map_file )
+
+    piece_list = list()
     for piece in map_file["pieces"]:
         piece[0], color = piece[0].split('_')
         piece_class = global_piece_dict[piece[0]]
         board.set_piece(piece_class([], color), piece[1])
+        piece_list.append([piece_class([], color), piece[1]])
+
+    board.set_piece_list(piece_list)
 
     players_dict = dict()
     for player_color in list(map_file['players_dict']):

@@ -7,30 +7,6 @@ class Board:
     def __init__(self):
         pass
 
-# gamemap dictionary format:
-#   {
-#       name:   "vanilla:map1",
-#       size:   [width, height],
-#       map:    [                                       
-#                   ['vanilla:border', 'vanilla:wall', 'vanilla:wall', 'vanilla:floor_light'],
-#                   ['vanilla:floor_light', 'vanilla:floor_dark3', 'vanilla:floor_light', 'vanilla:floor_dark'],
-#                   [...],
-#                   ...
-#               ],
-#       visibility_radius:  3,
-#       impassable_squares: [
-#                               'myblocks:mywall1',
-#                               ...
-#                           ],
-#       camera_pos: [4.5, 3] # < coordinates
-#       players_dict: {'white': 'vanilla:player',
-#                      'black': 'vanilla:AI',
-#                      'red': 'myais:AI'
-#                     }
-#       ...
-#   }
-#
-#
     def set_map(self, gamemap: dict) -> list:
         global impassable_squares
 
@@ -38,11 +14,15 @@ class Board:
         self.width, self.height = gamemap['size']
         self.map = gamemap['map']
         self.board = [ [''] * self.width for x in range(self.height) ]
-        self.board = [ [''] * self.width for x in range(self.height) ]
+        self.under_attack = [ [list() for x in range(self.width)] \
+                                for y in range(self.height) ]
         # the difference between self.map, self.board are that self.map contains types of squares, e.g. floor or wall, self.board contains pieces (the Piece class) 
         self.fog = [ ['#'] * self.width for x in range(self.height) ]
         self.lighting =  [ [0] * self.width for x in range(self.height) ]
+        self.movement_points = gamemap['movement_points']
         # self.fog and self.lighting are needed for graphical show off, self.fog contains which squares are seen by the player, '#' means for is there and '' means no fog, self.lighting contains the amount of light in different squares, 0 means not light, squares near player's pieces are more bright
+
+        self.piece_list = list()
         if gamemap['visibility_radius'] > 10:
             return ['Error', 'Visibility radius too great']
         self.visibility_radius = gamemap['visibility_radius']
@@ -82,7 +62,10 @@ class Board:
         
         self.board[ position_square[1] ][ position_square[0] ] = piece
         self.calculate_light_board()
+        self.calculate_attack_board()
+
         return ['Success', 'Success']
+
 
 
     # moving and capturing enemy pieces
@@ -124,7 +107,7 @@ class Board:
                 map_path.append('imjumpable')
             else:
                 map_path.append('passable')
-            board_path.append( self.board[ square[1] + path_offset[1] ][ square[0] + path_offset[0] ] )
+            board_path.append( self.board[ dy ][ dx ] )
 
         movement_validation = current_piece.validate_path(map_path, board_path)
         print(movement_validation)
@@ -137,10 +120,19 @@ class Board:
             pass
 
         self.board[ initial_move_square[1] ][ initial_move_square[0] ] = ''
+        for i in range(len(self.piece_list)):
+            if initial_move_square[0] == self.piece_list[i][1][0] and \
+                    initial_move_square[1] == self.piece_list[i][1][1]:
+                self.piece_list[i][1] = target_move_square
+                
         self.set_piece( current_piece, target_move_square )
 
         #self.board[ target_move_square[1] ][ target_move_square[0] ] = current_piece
         return ['Success', 'Success']
+
+    def set_piece_list( self, piece_list:list[list[Piece, int]] ):
+        self.piece_list = piece_list
+        self.calculate_light_board()
 
     def calculate_light_board(self) -> None:
         if self.visibility_radius < 0:
@@ -149,13 +141,11 @@ class Board:
         for i in range(self.height):
             for j in range(self.width):
                 self.lighting[i][j] = self.light_stages[-1]
-        for i in range(self.height):
-            for j in range(self.width):
-                if self.board[i][j] != '':
-                    self.calculate_light_piece([j, i])
+        for piece in self.piece_list:
+            self.calculate_light_piece(piece[1])
         return
 
-    def calculate_light_piece(self, position_square) -> None:
+    def calculate_light_piece( self, position_square: list[int, int] ) -> None:
         for i in range(-self.visibility_radius, self.visibility_radius+1):
             for j in range(-self.visibility_radius, self.visibility_radius+1):
                 if abs(i) + abs(j) > self.visibility_radius:
@@ -171,6 +161,49 @@ class Board:
                 this_square_light = max(this_square_light, self.light_stages[abs(i) + abs(j)])
                 self.lighting[ position_square[1] + i ][ position_square[0] + j ] = \
                         this_square_light
+        return
+
+    def calculate_attack_board(self) -> None:
+        self.under_attack = [ [list() for x in range(self.width)] \
+                                for y in range(self.height) ]
+        for piece in self.piece_list:
+            self.calculate_attack_piece(piece[1])
+        return
+
+    def calculate_attack_piece( self, piece: list[Piece, list[int, int]] ) -> None:
+        current_piece = self.board[ piece[1] ][ piece[0] ]
+        
+        if not current_piece:
+            return ['Error', 'No piece in the initial square']
+
+        relative_path = current_piece.return_attack(self.movement_points)
+        if relative_path[0] == 'Error':
+            return ['Error', 'Invalid target square']
+        path_offset = piece
+
+        map_path = list()
+        board_path = list()
+
+
+        for square in relative_path:
+            dy = square[1] + path_offset[1] 
+            dx = square[0] + path_offset[0]
+            if self.map[ dy ][ dx ] in impassable_squares and self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path.append([square, 'impassable_imjumpable'])
+            elif self.map[ dy ][ dx ] in impassable_squares:
+                map_path.append([square, 'impassable'])
+            elif self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path.append([square, 'imjumpable'])
+            else:
+                map_path.append([square, 'passable'])
+            board_path.append( [square, self.board[ dy ][ dx ]] )
+
+        validated_attack_squares = current_piece.validate_attack(map_path, board_path)
+        for square in validated_attack_squares:
+            dy = square[1] + path_offset[1] 
+            dx = square[0] + path_offset[0]
+            self.under_attack[ dy ][ dx ].append([current_piece.color, current_piece])
+        #print(self.under_attack)
         return
 
     def check_for_piece(self, position_square: list[int]) -> dict:
