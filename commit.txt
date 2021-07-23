@@ -1,2 +1,3 @@
-add dragging pieces to move them
+add red and blue color support
+
 

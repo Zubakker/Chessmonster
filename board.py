@@ -38,6 +38,7 @@ class Board:
         self.width, self.height = gamemap['size']
         self.map = gamemap['map']
         self.board = [ [''] * self.width for x in range(self.height) ]
+        self.board = [ [''] * self.width for x in range(self.height) ]
         # the difference between self.map, self.board are that self.map contains types of squares, e.g. floor or wall, self.board contains pieces (the Piece class) 
         self.fog = [ ['#'] * self.width for x in range(self.height) ]
         self.lighting =  [ [0] * self.width for x in range(self.height) ]
