@@ -1,16 +1,9 @@
-add under_attack map to the Board class and methods for Wazir Piece
+add under_attack support for all pieces
 
-The under_attack is a map that tells, which square is under attack by
-which piece. Each piece will gets new methods validate_attack() and 
-return_attack()
+Now all pieces have functions return_attack() and validate_attack()
+so board.under_attack variable should be working normally.
+Things that haven't been done:
+* King can still move to an under attack square and can be captured
+* Attacks that require a pinned piece to move still show as valid 
+  attacks as if the piece wasn't pinned
 
-The return_attack() returns all relative squares that can be attacked
-by the piece depending on its amount of movement_points (movement_pts.
-part not fully developed yet)
-
-The validate_attack() method gets all the relative squares' passablity
-and all pieces that migth be there. The point of the method is to cut
-off any attack squares that can't be reached, e.g. if the same color
-piece stands in front of the piece the validate_attack() method will 
-not return any forward-facing attack squares, except for the piece 
-standing in front (because it will be defended)

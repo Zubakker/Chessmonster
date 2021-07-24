@@ -157,7 +157,6 @@ class Board:
                     continue
                 self.fog[ position_square[1] + i ][ position_square[0] + j ] = ''
                 this_square_light = self.lighting[ position_square[1] + i ][ position_square[0] + j ]
-                #this_square_light = 0
                 this_square_light = max(this_square_light, self.light_stages[abs(i) + abs(j)])
                 self.lighting[ position_square[1] + i ][ position_square[0] + j ] = \
                         this_square_light
@@ -181,29 +180,30 @@ class Board:
             return ['Error', 'Invalid target square']
         path_offset = piece
 
-        map_path = list()
-        board_path = list()
+        map_path = dict()
+        board_path = dict()
+        attack_path = dict()
 
 
         for square in relative_path:
             dy = square[1] + path_offset[1] 
             dx = square[0] + path_offset[0]
             if self.map[ dy ][ dx ] in impassable_squares and self.map[ dy ][ dx ] in imjumpable_squares:
-                map_path.append([square, 'impassable_imjumpable'])
+                map_path[ str(square) ] = ['impassable_imjumpable', square]
             elif self.map[ dy ][ dx ] in impassable_squares:
-                map_path.append([square, 'impassable'])
+                map_path[ str(square) ] = ['impassable', square]
             elif self.map[ dy ][ dx ] in imjumpable_squares:
-                map_path.append([square, 'imjumpable'])
+                map_path[ str(square) ] = ['imjumpable', square]
             else:
-                map_path.append([square, 'passable'])
-            board_path.append( [square, self.board[ dy ][ dx ]] )
+                map_path[ str(square) ] = ['passable', square]
+            board_path[ str(square) ] = self.board[ dy ][ dx ] 
 
-        validated_attack_squares = current_piece.validate_attack(map_path, board_path)
+        validated_attack_squares = current_piece.validate_attack(map_path, board_path, 
+                                                    self.movement_points)
         for square in validated_attack_squares:
             dy = square[1] + path_offset[1] 
             dx = square[0] + path_offset[0]
             self.under_attack[ dy ][ dx ].append([current_piece.color, current_piece])
-        #print(self.under_attack)
         return
 
     def check_for_piece(self, position_square: list[int]) -> dict:

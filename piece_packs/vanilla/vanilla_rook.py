@@ -40,4 +40,43 @@ class VanillaRook(Piece):
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
 
+    def return_attack(self, movement_points: int) -> list[list[int, int]]:
+        attack_squares = list()
+        for i in range(1, movement_points+1):
+            attack_squares.append( [i, 0] )
+            attack_squares.append( [-i, 0] )
+            attack_squares.append( [0, i] )
+            attack_squares.append( [0, -i] )
+
+        return attack_squares
+
+    def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int):
+        validated_attack = list()
+        for i in range(1, movement_points+1):
+            if 'impassable' in map_path[ str([i, 0]) ][0]:
+                break
+            validated_attack.append( [i, 0] )
+            if board_path[ str([i, 0]) ][0] != '':
+                break
+        for i in range(1, movement_points+1):
+            if 'impassable' in map_path[ str([-i, 0]) ][0]:
+                break
+            validated_attack.append( [-i, 0] )
+            if board_path[ str([-i, 0]) ][0] != '':
+                break
+        for i in range(1, movement_points+1):
+            if 'impassable' in map_path[ str([0, i]) ][0]:
+                break
+            validated_attack.append( [0, i] )
+            if board_path[ str([0, i]) ][0] != '':
+                break
+        for i in range(1, movement_points+1):
+            if 'impassable' in map_path[ str([0, -i]) ][0]:
+                break
+            validated_attack.append( [0, -i] )
+            if board_path[ str([0, -i]) ][0] != '':
+                break
+
+        return validated_attack
+
 

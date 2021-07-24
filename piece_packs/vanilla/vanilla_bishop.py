@@ -38,3 +38,49 @@ class VanillaBishop(Piece):
         return ['Success', 'Succsess']
 
 
+    def return_attack(self, movement_points: int) -> list[list[int, int]]:
+        attack_squares = list()
+        # i know it can be done with only one 'for' cycle
+        # but doing it like this makes more sence
+        for i in range(1, movement_points + 1):
+            attack_squares.append([i, i])
+        for i in range(1, movement_points + 1):
+            attack_squares.append([-i, -i])
+        for i in range(1, movement_points + 1):
+            attack_squares.append([i, -i])
+        for i in range(1, movement_points + 1):
+            attack_squares.append([-i, i])
+
+        return attack_squares
+
+
+    def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int):
+        # map_path: {str([int, int]): [str, [int, int]}
+        validated_attack = list()
+        for i in range(1, movement_points + 1):
+            if 'impassable' in map_path[ str([i, i]) ][0]:
+                break
+            validated_attack.append( [i, i] ) 
+            if board_path[ str([i, i]) ][0] != '':
+                break
+        for i in range(1, movement_points + 1):
+            if 'impassable' in map_path[ str([-i, -i]) ][0]:
+                break
+            validated_attack.append( [-i, -i] ) 
+            if board_path[ str([-i, -i]) ][0] != '':
+                break
+        for i in range(1, movement_points + 1):
+            if 'impassable' in map_path[ str([i, -i]) ][0]:
+                break
+            validated_attack.append( [i, -i] ) 
+            if board_path[ str([i, -i]) ][0] != '':
+                break
+        for i in range(1, movement_points + 1):
+            if 'impassable' in map_path[ str([-i, i]) ][0]:
+                break
+            validated_attack.append( [-i, i] ) 
+            if board_path[ str([-i, i]) ][0] != '':
+                break
+
+        return validated_attack
+

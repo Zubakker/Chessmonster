@@ -34,14 +34,15 @@ class VanillaWazir(Piece):
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
 
-    def return_attack(self, movement_point) -> list[list[int, int]]:
+    def return_attack(self, movement_points: int) -> list[list[int, int]]:
         return [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
-    def validate_attack( self, map_path: list[list[list[int, int], str]], board_path: list[list[list[int, int], str]] ):
+    def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int ):
         validated_attack = list()
-        for square in map_path:
-            if 'impassible' in square or 'imjumpable' in square:
+        for es in [[-1, 0], [1, 0], [0, -1], [0, 1]]:
+            if 'impassible' in map_path[ str(es) ][0]:
                 continue
-            validated_attack.append(square[0])
+            else:
+                validated_attack.append(es)
 
         return validated_attack

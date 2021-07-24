@@ -19,6 +19,7 @@ class VanillaChessPawn(Piece):
             if delta_y == 1 and abs(delta_x) == 1:
                 return ['capturing', relative_movement]
             return ['Error', 'Invalid target square']
+
         if self.color == 'white':
             if not self.moved_flag and delta_y == -2:
                 return ['nocapturing', [0, -1], [0, -2]]
@@ -27,6 +28,7 @@ class VanillaChessPawn(Piece):
             if delta_y == -1 and abs(delta_x) == 1:
                 return ['capturing', relative_movement]
             return ['Error', 'Invalid target square']
+
         if self.color == 'red':
             if not self.moved_flag and delta_x == 2:
                 return ['nocapturing', [1, 0], [2, 0]]
@@ -35,6 +37,7 @@ class VanillaChessPawn(Piece):
             if delta_x == 1 and abs(delta_y) == 1:
                 return ['capturing', relative_movement]
             return ['Error', 'Invalid target square']
+
         if self.color == 'blue':
             if not self.moved_flag and delta_x == -2:
                 return ['nocapturing', [-1, 0], [-2, 0]]
@@ -64,5 +67,23 @@ class VanillaChessPawn(Piece):
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
+
+    def return_attack(self, movement_points: int) -> list[list[int, int]]:
+        if self.color == 'black':
+            return [[1, 1], [-1, 1]]
+        if self.color == 'white':
+            return [[1, -1], [-1, -1]]
+        if self.color == 'red':
+            return [[1, 1], [1, -1]]
+        if self.color == 'blue':
+            return [[-1, 1], [-1, -1]]
+
+    def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int) -> list[list[int, int]]:
+        validated_attack = list()
+        for square in list(map_path):
+            if 'impassable' not in map_path[square][0]:
+                validated_atack.append(map_path[square][1])
+
+
 
 

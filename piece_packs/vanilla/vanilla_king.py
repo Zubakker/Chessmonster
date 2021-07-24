@@ -32,3 +32,21 @@ class VanillaKing(Piece):
         if map_square == 'impassable':
             return ['Error', 'Impassable square in the way']
         return ['Success', 'Succsess']
+
+    def return_attack(self, movement_points: int) -> list[list[int, int]]:
+        attack_squares = list()
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                attack_squares.append( [i, j] )
+        return attack_squares
+
+
+    def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int):
+        validated_attack = list()
+        for square in list(map_path):
+            if map_path[ square ][0] in ['passable', 'imjumpable'] and \
+                        attack_path[ square ][0] == list():
+                validated_attack.append( map_path[ square ][1] )
+        return validated_attack
