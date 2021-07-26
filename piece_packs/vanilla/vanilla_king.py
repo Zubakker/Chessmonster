@@ -16,14 +16,21 @@ class VanillaKing(Piece):
         return ['', relative_movement]
 
 
-    def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
-        if 'impassable' in map_path or 'impassible_imjumpable' in map_path:
+    def validate_path(self, map_path: dict, board_path: dict, attack_path: dict) -> list[list[int]]:
+        square = str(list(map_path)[0])
+        # map_values = list(map_path.values())
+        if 'impassable' in map_path[ square ][0] or \
+                        'impassible_imjumpable' in map_path[ square ][0]:
             return ['Error', 'Impassable square in the way']
-
-        if board_path[1] != '':
-            target_piece = board_path[1]
-            if target_piece.color == self.color:
+        
+        board_values = list(board_path.values())
+        if board_path[ square ] != '':
+            target_piece = board_path[ square ][0]
+            if target_piece == self.color:
                 return ['Error', 'Same color piece on target square']
+        for attack in  attack_path[ square ][0]:
+            if attack[0] != self.color:
+                return ['Error', 'Target square under attack']
 
         return ['Success', 'Succsess']
     
@@ -46,7 +53,11 @@ class VanillaKing(Piece):
     def validate_attack( self, map_path: dict, board_path: dict, attack_path: dict, movement_points: int):
         validated_attack = list()
         for square in list(map_path):
-            if map_path[ square ][0] in ['passable', 'imjumpable'] and \
-                        attack_path[ square ][0] == list():
+            if map_path[ square ][0] not in ['passable', 'imjumpable']:
+                continue
+            for attack in  attack_path[ square ][0]:
+                if attack[0] != self.color:
+                    break
+            else:
                 validated_attack.append( map_path[ square ][1] )
         return validated_attack

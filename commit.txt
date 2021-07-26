@@ -1,9 +1,17 @@
-add under_attack support for all pieces
+fully functioning under_attack and Piece func arg changes
 
-Now all pieces have functions return_attack() and validate_attack()
-so board.under_attack variable should be working normally.
-Things that haven't been done:
-* King can still move to an under attack square and can be captured
-* Attacks that require a pinned piece to move still show as valid 
-  attacks as if the piece wasn't pinned
+Change Piece.validate_path() arguments (format and composition)
+apply these changes to all the pieces, now King can't move to an 
+attacked target, Board.under_attack is now fully functional
+Things not done yet:
+* castling
+* checking and mating king
 
+Piece.validate_path() arguments are now 
+    self, map_path: dict, board_path: dict, attack_path: dict
+dicts are as follows: key is a square, its format is str([int, int]),
+e.g. key='[2, -1]', value is a list of the actual value and the square
+coords, its format is list[value, [int, int]]
+map_path could look like {'[1, -1]': ['passable', [1, -1]]}
+board_path could look like {'[1, -1]': [Piece.VanillaRook, [1, -1]]}
+attack_path could look like {'[1, -1]': [[...], [1, -1]]}

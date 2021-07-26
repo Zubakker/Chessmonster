@@ -32,15 +32,16 @@ class VanillaQueen(Piece):
                 movement_path.append([-i-1, (i+1)*y_sign])
         return movement_path
 
-    def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
-        if 'impassable' in map_path or 'impassible_imjumpable' in map_path:
-            return ['Error', 'Impassable square in the way']
-        for square in board_path[:-1]:
-            if square != '':
+    def validate_path(self, map_path: dict, board_path: dict, attack_path: dict) -> list[list[int]]:
+        for square in list(map_path):
+            if map_path[ square ][0] not in ['passable', 'imjumpable']:
+                return ['Error', 'Impassable square in the way']
+            if board_path[ square ][0] != '' and square != list(map_path)[-1]:
                 return ['Error', 'Piece in the way']
-        if board_path[-1] != '' and board_path[-1].color == self.color:
+        last_square = list(map_path)[-1]
+        if board_path[ last_square ][0] != '' and \
+                    board_path[ last_square ][0].color == self.color:
             return ['Error', 'Same color piece on target square']
-
         return ['Success', 'Succsess']
     
 
@@ -53,15 +54,15 @@ class VanillaQueen(Piece):
     def return_attack(self, movement_points: int) -> list[list[int, int]]:
         attack_squares = list()
         for i in range(1, movement_points+1):
-            attack_sqaures.append( [i, 0] )
-            attack_sqaures.append( [-i, 0] )
-            attack_sqaures.append( [0, -i] )
-            attack_sqaures.append( [0, i] )
+            attack_squares.append( [i, 0] )
+            attack_squares.append( [-i, 0] )
+            attack_squares.append( [0, -i] )
+            attack_squares.append( [0, i] )
 
-            attack_sqaures.append( [i, i] )
-            attack_sqaures.append( [i, -i] )
-            attack_sqaures.append( [-i, -i] )
-            attack_sqaures.append( [-i, i] )
+            attack_squares.append( [i, i] )
+            attack_squares.append( [i, -i] )
+            attack_squares.append( [-i, -i] )
+            attack_squares.append( [-i, i] )
 
         return attack_squares
 

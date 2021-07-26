@@ -17,15 +17,13 @@ class VanillaWazir(Piece):
         return ['', relative_movement]
 
 
-    def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
-        if 'impassable' in map_path or 'impassible_imjumpable' in map_path:
-            return ['Error', 'Impassable square in the way']
-
-        if board_path[1] != '':
-            target_piece = board_path[1]
-            if target_piece.color == self.color:
+    def validate_path(self, map_path: dict, board_path: dict, attack_path: dict) -> list[list[int]]:
+        for square in list(map_path):
+            if map_path[ square ][0] not in ['passable', 'imjumpable']:
+                return ['Error', 'Impassable square in the way']
+            if board_path[ square ][0] != '' and \
+                        board_path[ square ][0].color == self.color:
                 return ['Error', 'Same color piece on target square']
-
         return ['Success', 'Succsess']
     
 

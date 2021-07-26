@@ -63,6 +63,13 @@ class Board:
         self.board[ position_square[1] ][ position_square[0] ] = piece
         self.calculate_light_board()
         self.calculate_attack_board()
+        for i in range(self.width):
+            for j in range(self.height):
+                if self.under_attack[ i ][ j ] != list():
+                    print(' # ', end='')
+                else:
+                    print(' _ ', end='')
+            print()
 
         return ['Success', 'Success']
 
@@ -89,12 +96,32 @@ class Board:
         if relative_path[0] == 'Error':
             return ['Error', 'Invalid target square']
         path_offset = initial_move_square[::]
+        
+        map_path = dict()
+        board_path = dict()
+        attack_path = dict()
 
+
+        for square in relative_path[1:]:
+            dy = square[1] + path_offset[1] 
+            dx = square[0] + path_offset[0]
+            if self.map[ dy ][ dx ] in impassable_squares and self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path[ str(square) ] = ['impassable_imjumpable', square]
+            elif self.map[ dy ][ dx ] in impassable_squares:
+                map_path[ str(square) ] = ['impassable', square]
+            elif self.map[ dy ][ dx ] in imjumpable_squares:
+                map_path[ str(square) ] = ['imjumpable', square]
+            else:
+                map_path[ str(square) ] = ['passable', square]
+            board_path[ str(square) ] = [self.board[ dy ][ dx ], square]
+            attack_path[ str(square) ] = [self.under_attack[ dy ][ dx ], square]
+        piece_flag = relative_path[0] # some pieces require flags to how to react, e.g. pawn needs no know if it is going diagonally to check for enemy pieces
+        board_path['flag'] = piece_flag
+
+        '''
         map_path = list()
         board_path = list()
 
-        piece_flag = relative_path[0] # some pieces require flags to how to react, e.g. pawn needs no know if it is going diagonally to check for enemy pieces
-        board_path.append(piece_flag) 
 
         for square in relative_path[1:]:
             dy = square[1] + path_offset[1] 
@@ -108,8 +135,10 @@ class Board:
             else:
                 map_path.append('passable')
             board_path.append( self.board[ dy ][ dx ] )
+        '''
 
-        movement_validation = current_piece.validate_path(map_path, board_path)
+        movement_validation = current_piece.validate_path(map_path, board_path, 
+                                                            attack_path)
         print(movement_validation)
 
         if movement_validation[0] == 'Error':
@@ -188,6 +217,12 @@ class Board:
         for square in relative_path:
             dy = square[1] + path_offset[1] 
             dx = square[0] + path_offset[0]
+            if dx < 0 or dx >= self.width or dy < 0 or dy >= self.height:
+                map_path[ str(square) ] = ['impassable_imjumpable', square]
+                board_path[ str(square) ] = [list(), square]
+                attack_path[ str(square) ] = [list(), square]
+                continue
+
             if self.map[ dy ][ dx ] in impassable_squares and self.map[ dy ][ dx ] in imjumpable_squares:
                 map_path[ str(square) ] = ['impassable_imjumpable', square]
             elif self.map[ dy ][ dx ] in impassable_squares:
@@ -196,10 +231,11 @@ class Board:
                 map_path[ str(square) ] = ['imjumpable', square]
             else:
                 map_path[ str(square) ] = ['passable', square]
-            board_path[ str(square) ] = self.board[ dy ][ dx ] 
+            board_path[ str(square) ] = [self.board[ dy ][ dx ], square]
+            attack_path[ str(square) ] = [self.under_attack[ dy ][ dx ], square]
 
         validated_attack_squares = current_piece.validate_attack(map_path, board_path, 
-                                                    self.movement_points)
+                                                attack_path, self.movement_points)
         for square in validated_attack_squares:
             dy = square[1] + path_offset[1] 
             dx = square[0] + path_offset[0]

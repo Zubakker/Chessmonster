@@ -48,15 +48,19 @@ class VanillaChessPawn(Piece):
             return ['Error', 'Invalid target square']
         return ['Error', 'Invalid target square']
 
-    def validate_path(self, map_path: list[str], board_path: list[Piece]) -> list[list[int]]:
+    def validate_path(self, map_path: dict, board_path: dict, attack_path: dict) -> list[list[int]]:
         if 'impassable' in map_path or 'impassible_imjumpable' in map_path:
             return ['Error', 'Impassable square in the way']
+        board_values = list(board_path.values())
 
-        if board_path[0] == 'nocapturing':
-            if board_path[1] != '' or (len(board_path) == 3 and board_path[2] != ''):
+        if board_path['flag'] == 'nocapturing':
+            if board_values[0][0] != '' or \
+                        (len(board_values) == 3 and board_values[1][0] != ''):
                 return ['Error', 'Path obstructed by pieces']
-        if board_path[0] == 'capturing':
-            if board_path[1] == '' or board_path[1].color == self.color:
+        if board_path['flag'] == 'capturing':
+            print(board_values)
+            if board_values[1] == '' or \
+                        board_values[1] == self.color:
                 return ['Error', 'No one to capture']
         self.moved_flag = True
 
@@ -82,7 +86,8 @@ class VanillaChessPawn(Piece):
         validated_attack = list()
         for square in list(map_path):
             if 'impassable' not in map_path[square][0]:
-                validated_atack.append(map_path[square][1])
+                validated_attack.append(map_path[square][1])
+        return validated_attack
 
 
 
